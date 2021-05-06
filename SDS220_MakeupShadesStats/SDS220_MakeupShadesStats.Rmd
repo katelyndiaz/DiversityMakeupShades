@@ -21,7 +21,6 @@ output:
     df_print: paged
     code_folding: hide
     link-citations: true
-
 references: 
 - id: data.world
   type: article
@@ -48,7 +47,6 @@ library(openintro)
 library(plotly)
 library(moderndive)
 library(kableExtra)
-
 makeupdata <- read.csv("makeupshades3 copy.csv")
   #"SDS220_FinalProjectPersonalExploration/makeupshades1.csv") <- if i need to run the data
 ```
@@ -103,7 +101,6 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
   geom_rect(data=NULL,
              aes(xmin=80,xmax=100,ymin=-Inf,ymax=Inf), 
              fill="#8d5524", col="#8d5524")+
-
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
  scale_color_manual(values=c("#001eff", #india is first
                              "#4deeea", "#ffe700", "#74ee15", "FFFFFF"))+ # color codes the data
@@ -136,7 +133,6 @@ We did not choose the parallel slopes model because...
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
 summarymm <- summary(makeup_model2)
 summarymm
-
 #   tidy() %>%
 #   kable()
 ```
@@ -159,7 +155,6 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   geom_rect(data=NULL,
              aes(xmin=80,xmax=100,ymin=-Inf,ymax=Inf), 
              fill="#8d5524", col="#8d5524")+
-
   geom_point() +
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
   geom_smooth(method = "lm", se=FALSE) +## lm means line, se = FALSE gets rid of the buffer
@@ -175,7 +170,6 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
        x ="Lightness (Lightest to Darkest)") +
   scale_colour_discrete("Best Seller\n by Country") 
   
-
 ```
 
 
@@ -219,10 +213,8 @@ plot1a <- ggplot(makeup_shades, aes(x = lightness, y = price))+
   geom_smooth(method = "lm", se = FALSE) # drawing the regression line
 #plot1a
 #ggplotly(plot1a)
-
 # Summary statistics
 question1a <- lm(price ~ lightness, data = makeup_shades)
-
 ggplot(data = question1a, aes(x = .resid)) +
   geom_histogram() +
   xlab("Residuals")
@@ -282,5 +274,4 @@ From this analysis, we can see that the price of makeup best sellers in India is
 ***
 
 ### References
-
 
