@@ -1,1 +1,3 @@
-# SDS220_MakeupShades
+##### SDS220 FinalProject
+
+The question that we were trying to answer was if there is a relationship between price and lightness across different value makeup brands around the world. This was done using the data from `Data.World` and their article [Diversity of Makeup Shades](https://data.world/the-pudding/diversity-of-makeup-shades). Many brands only offer lighter shades because they claim that darker shades are “more difficult to create”, but this is a disservice to makeup consumers with a darker complexion.  We wanted to see if there could be any relationship between the specific shade and price (i.e. are darker shades more expensive?), as well as if this differs by location.
