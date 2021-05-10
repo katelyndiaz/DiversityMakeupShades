@@ -87,7 +87,7 @@ summary(makeup_model) # %>%
 #   kable_material(c("striped", "hover"))
 ```
 
-```{r, fig.cap="Parallel slopes model plot comparing lightness (x-axis) to price in dollars(y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
+```{r, fig.cap="**Figure 1** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
     geom_rect(data=NULL,
              aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
