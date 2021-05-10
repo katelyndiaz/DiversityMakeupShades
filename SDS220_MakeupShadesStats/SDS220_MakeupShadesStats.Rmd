@@ -47,6 +47,7 @@ library(openintro)
 library(plotly)
 library(moderndive)
 library(kableExtra)
+library(broom)
 makeupdata <- read.csv("makeupshades4 copy.csv")
                        # FinalProjectPersonalExploration/makeupshades1 copy.csv")
   #"SDS220_MakeupShadesStats/MakeupShades3 copy.csv"") <- if i need to run the data
@@ -82,10 +83,10 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 
 ```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model)  # %>%
-#   tidy() %>%
-#   kbl() %>%
-#   kable_material(c("striped", "hover"))
+summary(makeup_model)   %>%
+  tidy() %>%
+  kbl() %>%
+  kable_material(c("striped", "hover"))
 ```
 
 ```{r, fig.cap="**Figure 1** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
@@ -121,6 +122,20 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
    geom_parallel_slopes(se=FALSE)
 ```
 
+
+```{r, fig.cap="model graph without background to better view data  points"}
+ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
+  scale_x_continuous(breaks=c(0,20,40,60,80,100))+
+  theme_minimal(base_size=20)+ 
+  labs(title="Parallel Slopes Model of Makeup Data",
+       y= "Price (in US Dollars)",
+       x ="Lightness (Lightest to Darkest)") +
+  scale_colour_discrete("Best Seller\n by Country") +
+  geom_point() +
+   geom_parallel_slopes(se=FALSE) 
+```
+
+
 ***
 <style>
 div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
@@ -149,17 +164,19 @@ From this analysis, we can see that the price of makeup best sellers in India is
 
 ```{r}
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
-summarymm <- summary(makeup_model2) 
-# %>%
-#   # tidyr() %>%
-#   kbl() %>%
-#   kable_material(c("striped", "hover"))
+summarymm <- summary(makeup_model2) %>%
+  tidy() %>%
+  kbl() %>%
+  kable_material(c("striped", "hover"))
 summarymm
 #   tidy() %>%
 #   kable()
 ```
 
-```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries."}
+>what  model is it for, what rows should we be paying attention to
+
+
+```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
    geom_rect(data=NULL,
@@ -194,6 +211,8 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
 ```
 
+
+
 ***
 <style>
 div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
@@ -203,7 +222,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 At first glance, our interaction model may look similar to our parallel slopes model, but they are actually different. See Appendix for further explanation. 
 
 
-The interaction model is not ideal compared to the parallel slopes model, and the reasoning behind this lies in the p-values. In the summary table, each row represents a hypothesis test, and the column furthest to the right shows a p-value for each test that was obtained. We usually use a significance level of 0.05 in order to determine whether the result is significant or not. P-values less than 0.05 imply that there is significance (we can reject the null hypothesis because there is evidence in favor in the alternative hypothesis), and those greater than 0.05 do not have significance (we fail to reject the null). As we can see from the summary table for the parallel slopes model, we've obained p-values all greater than the significance level for seven out of the eight rows (0.7366, 0.7098, and 0.9995, just to name a few). This means that it is not significant to have several different slopes for our model. On the other hand, our parallel slopes model does exhibit extremely small p-values for four out of five of the rows (examples include 0.02, 0.0026, and 3.79e-14). This tells us that there is significance in having different slopes, which is why our parallel slopes model is more ideal. 
+The interaction model is not ideal compared to the parallel slopes model, and the reasoning behind this lies in the p-values. In the summary table, each row represents a hypothesis test, and the column furthest to the right shows a p-value for each test that was obtained. We usually use a significance level of 0.05 in order to determine whether the result is significant or not. P-values less than 0.05 imply that there is significance (we can reject the null hypothesis because there is evidence in favor in the alternative hypothesis), and those greater than 0.05 do not have significance (we fail to reject the null). As we can see from the summary table for the parallel slopes model, we've obtained p-values all greater than the significance level for seven out of the eight rows (0.7366, 0.7098, and 0.9995, just to name a few). This means that it is not significant to have several different slopes for our model. On the other hand, our parallel slopes model does exhibit extremely small p-values for four out of five of the rows (examples include 0.02, 0.0026, and 3.79e-14). This tells us that there is significance in having different slopes, which is why our parallel slopes model is more ideal. 
 
 </div>
 
@@ -252,6 +271,15 @@ ggplot(data = question1a, aes(x = .resid)) +
   geom_histogram() +
   xlab("Residuals")
 ```
+
+
+```{r, qq plot}
+qqplot <- lm(price ~ lightness, data = makeup_shades)
+ggplot(data = question1a, aes(sample = .resid)) +
+  geom_qq() +
+  xlab("Residuals") # curves line up with the two peaks in the histogram
+```
+
 
 ***
 <style>
