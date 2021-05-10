@@ -47,8 +47,9 @@ library(openintro)
 library(plotly)
 library(moderndive)
 library(kableExtra)
-makeupdata <- read.csv("SDS220_FinalProjectPersonalExploration/makeupshades1 copy.csv")
-  #"SDS220_FinalProjectPersonalExploration/makeupshades1.csv") <- if i need to run the data
+makeupdata <- read.csv("makeupshades4 copy.csv")
+                       # FinalProjectPersonalExploration/makeupshades1 copy.csv")
+  #"SDS220_MakeupShadesStats/MakeupShades3 copy.csv"") <- if i need to run the data
 ```
 
 ```{r filtering out NA in best_seller}
