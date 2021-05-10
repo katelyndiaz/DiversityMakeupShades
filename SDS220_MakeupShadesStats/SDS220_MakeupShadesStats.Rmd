@@ -62,7 +62,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-  During our data exploration, the question that we were trying to answer was if there is a relationship between price and lightness across different value makeup brands around the world. We did this using the data from `Data.World` and their article [Diversity of Makeup Shades](https://data.world/the-pudding/diversity-of-makeup-shades). After playing around with different variables, we settled on `price` and `lightness`, organized by `best_seller`. More specifically, we all liked the idea of finding a relationship between `price` and `lightness`, because we think price is an important factor in determining the likelihood of someone purchasing a makeup product. Since lightness is a number, we can relate it to the price. We also wanted to use the categorical variable `best_seller`, as it allows us to see shade variability separated into four countries, allowing us to observe the diversity of its products and shades, as well as if there is any correlation with `price`. 
+  During our data exploration, the question that we were trying to answer was if there is a relationship between price and lightness across different value makeup brands around the world. We did this using the data from `Data.World` and their article [Diversity of Makeup Shades](https://data.world/the-pudding/diversity-of-makeup-shades). After playing around with different variables, we settled on `price` and `lightness`, organized by `best_seller`. More specifically, we all liked the idea of finding a relationship between `price` and `lightness`, because we think price is an important factor in determining the likelihood of someone purchasing a makeup product. Since lightness is a number, we can relate it to the price. We also wanted to use the categorical variable `best_seller`, as it allows us to see shade variability separated into four countries, allowing us to observe the diversity of its products and shades, as well as if there is any correlation with `price` in US dollars. 
   
   When glimpsing the data, we noticed about ~100 `na`'s under `best_seller`. To make our analysis easier, we filtered out `na`'s from the data set. Our categorical variable is `best_seller`, and our numerical variables are `price` (quantitative response variable) and `lightness`(explanatory variable). 
   
@@ -76,15 +76,18 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 ### Linear Regressions
 
 
-**Parallel Slopes model**
+#### Parallel Slopes Model and Analysis
 
 
 ```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model)
+summary(makeup_model)  # %>%
+#   tidy() %>%
+#   kbl() %>%
+#   kable_material(c("striped", "hover"))
 ```
 
-```{r}
+```{r, fig.cap="**Figure 1** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
     geom_rect(data=NULL,
              aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
@@ -109,7 +112,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
                # scale_fill_discrete(name = "Country")
             )+ # makes a white background, base size changes font size
   labs(title="Parallel Slopes Model of Makeup Data",
-       subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
+       # subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
        y= "Price (in US Dollars)",
        x ="Lightness (Lightest to Darkest)") +
   scale_colour_discrete("Best Seller\n by Country") +
@@ -123,16 +126,16 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-For our parallel slopes model, the baseline, India, was represented by the equation: **price_hat_India = 9.1686 -0.007326x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an *decrease* of price by approximately $0.007 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, *$9.20*. 
+For our parallel slopes model, the baseline, India, was represented by the equation: **price_hat_India = 9.1686 -0.007326x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an *decrease* of price by approximately $0.007 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, **$9.20**. 
 
 
-Besides from our baseline, we also investigated data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (9.2 + 36.72) -0.007326x**. As we can see, the slope stays constant for all lines, so we can expect to see that for every unit increase in lightness, there is also an *decrease* in price by approximately $0.007 on average. When the lightness is equal to zero, we expect to see the price to be, on average, $(9.2 + 36.72), or *$45.92*, so in spite of this constant slope, Japan starts off at a much higher price. This leads us to believe that from the start, the cost of makeup best sellers in Japan is much more expensive than the cost in India. 
+Besides from our baseline, we also investigated data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (9.2 + 36.72) -0.007326x**. As we can see, the slope stays constant for all lines, so we can expect to see that for every unit increase in lightness, there is also an *decrease* in price by approximately $0.007 on average. When the lightness is equal to zero, we expect to see the price to be, on average, $(9.2 + 36.72), or **$45.92**, so in spite of this constant slope, Japan starts off at a much higher price. This leads us to believe that from the start, the cost of makeup best sellers in Japan is much more expensive than the cost in India. 
 
 
-Nigeria on the other hand does not appear to show behavior as drastic as Japan. The regression line for Nigeria is represented by **price_hat_Nigeria = (9.2 + 7.88) -0.007326x**, where for every one unit increase in lightness, we expect the price to decrease by $0.007 on average. We also expect the price to be (9.2 + 7.88), or *$17.08* on average, when the lightness is equal to zero. While this price might not be as expensive as the price in Japan, it is still higher than India. 
+Nigeria on the other hand does not appear to show behavior as drastic as Japan. The regression line for Nigeria is represented by **price_hat_Nigeria = (9.2 + 7.88) -0.007326x**, where for every one unit increase in lightness, we expect the price to decrease by $0.007 on average. We also expect the price to be (9.2 + 7.88), or **$17.08** on average, when the lightness is equal to zero. While this price might not be as expensive as the price in Japan, it is still higher than India. 
 
 
-Lastly, we analyzed at the data for makeup bestsellers in the U.S. The regression line for the U.S. is represented by the equation **price_hat_US = (9.2 + 15.57) -0.007326x**. We expect the price to decrease, on average, by $0.007 for every one unit increase in lightness, and when the lightness is equal to zero, the price is expected to be $(9.2 + 15.57) or *$24.77* on average. Compared to India, the price of makeup best sellers in the U.S. are still more expensive. 
+Lastly, we analyzed at the data for makeup bestsellers in the U.S. The regression line for the U.S. is represented by the equation **price_hat_US = (9.2 + 15.57) -0.007326x**. We expect the price to decrease, on average, by $0.007 for every one unit increase in lightness, and when the lightness is equal to zero, the price is expected to be $(9.2 + 15.57) or **$24.77** on average. Compared to India, the price of makeup best sellers in the U.S. are still more expensive. 
 
 
 From this analysis, we can see that the price of makeup best sellers in India is the cheapest at $9.20, compared to the other countries which have much higher prices. Japan being the most expensive at $45.92, then the U.S. at $24.77, and finally Nigeria at $17.08. We can see that there is a negative correlation between price and lightness in all countries (India, Japan, Nigeria, the U.S.) as a result of having a negative slope. 
@@ -141,17 +144,21 @@ From this analysis, we can see that the price of makeup best sellers in India is
 
 ***
 
-**Interaction model** (baseline = India)
+#### Interaction Model and Analysis
 
 ```{r}
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
-summarymm <- summary(makeup_model2)
+summarymm <- summary(makeup_model2) 
+# %>%
+#   # tidyr() %>%
+#   kbl() %>%
+#   kable_material(c("striped", "hover"))
 summarymm
 #   tidy() %>%
 #   kable()
 ```
 
-```{r linearity plot}
+```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
    geom_rect(data=NULL,
@@ -179,7 +186,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
                # scale_fill_discrete(name = "Country")
             )+ # makes a white background, base size changes font size
   labs(title="Interaction Model of Makeup Data",
-       subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
+       # subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
        y= "Price (in US Dollars)",
        x ="Lightness (Lightest to Darkest)") +
   scale_colour_discrete("Best Seller\n by Country") 
@@ -285,19 +292,20 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-For our interaction model, the baseline, India, was represented by the equation: **price_hat_India = 4.1129345 + 0.0607310x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an increase of price by $0.06 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, $4.11. 
+*Further explanations for the Interaction Model:* 
+
+For our interaction model, the baseline, India, was represented by the equation: **price_hat_India = 4.1129345 + 0.0607310x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an increase of price by $0.06 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, $4.11. Because this is the interaction model, we can expect our intercepts and slopes to change, depending on the country we are looking at. 
+
+Besides from our baseline, we also looked at data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (4.11 + 36.55) + (0.0607310 - 0.0001561)x**. On average, we can expect to see that for every unit increase in lightness, there is an increase in price by $(0.0607310 - 0.0001561), or approximately $0.06. When the lightness is equal to zero, we expect to see the price to be, on average, $(4.11 + 36.55), or $40.66. Even though the slope of the baseline and the slope of **price_hat_Japan** are very similar, Japan is already at a much higher price.
 
 
-Besides from our baseline, we also looked at data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (4.11 + 36.55) + (0.0607310 - 0.0001561)x**. On average, we can expect to see that for every unit increase in lightness, there is an increase in price by $(0.0607310 - 0.0001561), or approximately $0.06. When the lightness is equal to zero, we expect to see the price to be, on average, $(4.11 + 36.55), or $40.66. Even though the slope of the baseline and the slope of **price_hat_Japan** are very similar, Japan starts off at a much higher price. This leads us to believe that from the start, the cost of makeup best sellers in Japan is much more expensive than the cost in India. 
-
-
-Nigeria on the other hand does not appear to show behavior as drastic as Japan. The regression line for Nigeria is represented by **price_hat_Nigeria = (4.11 + 12.64) + (0.0607310 - 0.0626467)x**, where for every one unit increase in lightness, we expect the price to *decrease* by $(0.0607310 - 0.0626467), or $0.0019 on average. This value clearly doesn't even equal one cent, so the slope of **price_hat_Nigeria** is roughly the same as the baseline. When the lightness is equal to zero, we expect the price to be (4.11 + 12.64), or $16.75 on average. While this price might not be as expensive as the price in Japan, it is still a bit more than the baseline. 
+Nigeria on the other hand does not appear to show behavior as extreme as Japan. The regression line for Nigeria is represented by **price_hat_Nigeria = (4.11 + 12.64) + (0.0607310 - 0.0626467)x**, where for every one unit increase in lightness, we expect the price to *decrease* by $(0.0607310 - 0.0626467), or $0.0019 on average. The slope of **price_hat_Nigeria** is roughly the same as the baseline, since that value isn't even equal to one cent. When the lightness is equal to zero, we expect the price to be (4.11 + 12.64), or $16.75 on average. While this price might not be as expensive as the price in Japan, it is still higher than the baseline. 
 
 
 Lastly, we looked at the data for makeup bestsellers in the U.S. The regression line for the U.S. is represented by **price_hat_US = (4.11 + 21.73) + (0.0607310 - 0.0851736)x**. We expect the price to decrease, on average, by $(0.0607310 - 0.0851736) or approximately $0.03 for every one unit increase in lightness. When the lightness is equal to zero, the price is expected to be $(4.11 + 21.73) or $25.84 on average. Compared to the baseline, the price of makeup best sellers in the U.S. are still more expensive to those in India. 
 
 
-From this analysis, we can see that the price of makeup best sellers in India is the cheapest at $4.11, compared to the other countries which have much higher prices. Japan being the most expensive at $40.66, then the U.S. at $25.84, and finally Nigeria at $16.75. From the slopes, we can see that in Japan and India, there is a positive correlation between price and lightness, and then in Nigeria and the U.S., a negative correlation between the two. 
+In general, we can see that the price of makeup best sellers in India is the cheapest at $4.11, compared to the other countries which have much higher prices. Japan being the most expensive at $40.66, then the U.S. at $25.84, and finally Nigeria at $16.75. From the slopes, we can see that in Japan and India, there is a positive correlation between price and lightness, and then in Nigeria and the U.S., a negative correlation between the two. 
 
 </div>
 
