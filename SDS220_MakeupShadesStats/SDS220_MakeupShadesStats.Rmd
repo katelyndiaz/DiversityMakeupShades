@@ -186,7 +186,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
                # scale_fill_discrete(name = "Country")
             )+ # makes a white background, base size changes font size
   labs(title="Interaction Model of Makeup Data",
-       subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
+       # subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
        y= "Price (in US Dollars)",
        x ="Lightness (Lightest to Darkest)") +
   scale_colour_discrete("Best Seller\n by Country") 
