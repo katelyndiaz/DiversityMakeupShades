@@ -81,7 +81,10 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 
 ```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model)
+summary(makeup_model) # %>%
+#   # tidyr() %>%
+#   kbl() %>%
+#   kable_material(c("striped", "hover"))
 ```
 
 ```{r}
@@ -145,7 +148,11 @@ From this analysis, we can see that the price of makeup best sellers in India is
 
 ```{r}
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
-summarymm <- summary(makeup_model2)
+summarymm <- summary(makeup_model2) 
+# %>%
+#   # tidyr() %>%
+#   kbl() %>%
+#   kable_material(c("striped", "hover"))
 summarymm
 #   tidy() %>%
 #   kable()
