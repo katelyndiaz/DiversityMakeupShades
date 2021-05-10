@@ -158,7 +158,7 @@ summarymm
 #   kable()
 ```
 
-```{r linearity plot}
+```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
    geom_rect(data=NULL,
