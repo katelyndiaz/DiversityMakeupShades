@@ -81,8 +81,8 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 
 ```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model) # %>%
-#   # tidyr() %>%
+summary(makeup_model)  # %>%
+#   tidy() %>%
 #   kbl() %>%
 #   kable_material(c("striped", "hover"))
 ```
