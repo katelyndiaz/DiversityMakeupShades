@@ -76,7 +76,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 ### Linear Regressions
 
 
-**Parallel Slopes model**
+#### Parallel Slopes Model and Analysis
 
 
 ```{r}
@@ -144,7 +144,7 @@ From this analysis, we can see that the price of makeup best sellers in India is
 
 ***
 
-**Interaction model** (baseline = India)
+#### Interaction Model and Analysis
 
 ```{r}
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
