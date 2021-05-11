@@ -129,6 +129,7 @@ ggplot(data = makeup_shades, aes(x = lightness, y=price, col = best_seller)) +
    theme_minimal(base_size=20)
 ```
 
+> A great majority of the data points are concentrated towards the right of the scatterplot, giving evidence of more products with lighter shades available on the market
   
 ### Linear Regressions
 
