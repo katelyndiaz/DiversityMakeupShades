@@ -373,7 +373,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </p>
 </div>
 <blockquote>
-<p>Data is left-skewed. Range of lightness is from approximately 0-100</p>
+<p>Data is left-skewed. Range of lightness is from approximately 0-100 (from darkest to lightest)</p>
 </blockquote>
 </div>
 <div id="best_seller-barplot" class="section level4">
@@ -387,6 +387,9 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 <strong>Figure 3</strong> Barplot of the best_seller variable
 </p>
 </div>
+<blockquote>
+<p>US has the highest number of brands contributing to this dataset, with over 150</p>
+</blockquote>
 </div>
 <div id="scatterplot-of-variables" class="section level4">
 <h4>Scatterplot of Variables</h4>
@@ -403,10 +406,21 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </div>
 <div id="linear-regressions" class="section level3">
 <h3>Linear Regressions</h3>
+<div id="hypothesis-test" class="section level4">
+<h4>Hypothesis Test</h4>
+<hr />
+<style>
+div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
+</style>
+<div class="blue">
+<p>For our linear regression models, we explored whether or not there was a difference in price of makeup <code>best_seller</code>’s across different countries. Our <strong>null hypothesis</strong> is that there is <em>no difference</em> in price, while our <strong>alternative hypothesis</strong> is that there <em>is</em> a difference in price.</p>
+</div>
+<hr />
+</div>
 <div id="parallel-slopes-model-and-analysis" class="section level4">
 <h4>Parallel Slopes Model and Analysis</h4>
 <pre class="r"><code>makeup_model &lt;- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model)   %&gt;%
+summary(makeup_model)  %&gt;%
   tidy() %&gt;%
   kbl() %&gt;%
   kable_material(c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
@@ -519,7 +533,7 @@ best_sellerUS
 </tbody>
 </table>
 <blockquote>
-<p>Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly.</p>
+<p>Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly. Considering that the multiple R^2 value is 0.4947, the regression lines do not fit the data properly.</p>
 </blockquote>
 <pre class="r"><code>ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
     geom_rect(data=NULL,
@@ -752,10 +766,8 @@ lightness:best_sellerUS
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>#   tidy() %&gt;%
-#   kable()</code></pre>
 <blockquote>
-<p>This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis.</p>
+<p>This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis. Considering that the multiple R^2 value is 0.4953, the regression lines do not fit the data properly.</p>
 </blockquote>
 <pre class="r"><code>ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   

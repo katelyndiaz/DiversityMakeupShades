@@ -109,7 +109,7 @@ ggplot(data = makeup_shades, aes(x = lightness)) +
    theme_minimal(base_size=20)
 ```
 
-> Data is left-skewed. Range of lightness is from approximately 0-100
+> Data is left-skewed. Range of lightness is from approximately 0-100 (from darkest to lightest)
 
 #### `Best_seller` Barplot 
 
@@ -119,6 +119,7 @@ ggplot(data= makeup_shades, aes(x=best_seller))+
    theme_minimal(base_size=20)
 ```
 
+> US has the highest number of brands contributing to this dataset, with over 150
 
 #### Scatterplot of Variables
 
@@ -131,19 +132,32 @@ ggplot(data = makeup_shades, aes(x = lightness, y=price, col = best_seller)) +
   
 ### Linear Regressions
 
+#### Hypothesis Test
+
+***
+<style>
+div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+For our linear regression models, we explored whether or not there was a difference in price of makeup `best_seller`'s across different countries. Our **null hypothesis** is that there is *no difference* in price, while our **alternative hypothesis** is that there *is* a difference in price. 
+
+</div>
+
+***
 
 #### Parallel Slopes Model and Analysis
 
 
 ```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model)   %>%
+summary(makeup_model)  %>%
   tidy() %>%
   kbl() %>%
   kable_material(c("striped", "hover"))
 ```
 
-> Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly. 
+> Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly. Considering that the multiple R^2 value is 0.4947, the regression lines do not fit the data properly. 
 
 ```{r, fig.cap="**Figure 5a** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
@@ -226,11 +240,10 @@ summarymm <- summary(makeup_model2) %>%
   kbl() %>%
   kable_material(c("striped", "hover"))
 summarymm
-#   tidy() %>%
-#   kable()
+
 ```
 
->This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis. 
+> This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis. Considering that the multiple R^2 value is 0.4953, the regression lines do not fit the data properly. 
 
 ```{r, fig.cap="**Figure 6** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
@@ -283,6 +296,7 @@ The interaction model is not ideal compared to the parallel slopes model, and th
 </div>
 
 ***
+
 
 
 ### Limitations Plots
