@@ -89,6 +89,22 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 
 ***
 
+### Data Analysis
+```{r Price Historgram}
+ggplot(data = makeup_shades, aes(x = price)) +
+  geom_histogram()
+```
+
+```{r Lightness Histogram}
+ggplot(data = makeup_shades, aes(x = lightness)) +
+  geom_histogram()
+```
+
+```{r Lightness Histogram}
+ggplot(data = makeup_shades, aes(x = lightness)) +
+  geom_point()
+```
+
   
 ### Linear Regressions
 
@@ -139,12 +155,10 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
    geom_parallel_slopes(se=FALSE)
 ```
 
-
-<<<<<<< HEAD
 ```{r, fig.cap="Model graph without background to better view data  points"}
-=======
+
+```
 ```{r, fig.cap="**Figure 1b**Parallel slopes model graph with white background to better view data  points"}
->>>>>>> a06b445095306a2c82736b0e3b14879524924188
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
   theme_minimal(base_size=20)+ 
