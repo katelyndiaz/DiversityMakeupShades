@@ -295,8 +295,7 @@ ggplot(data = question1a, aes(x = .resid)) +
 qqplot <- lm(price ~ lightness, data = makeup_shades)
 ggplot(data = question1a, aes(sample = .resid)) +
   geom_qq() +
-  xlab("Residuals") +# curves line up with the two peaks in the histogram
-   theme_minimal(base_size=20)
+  xlab("Residuals") # curves line up with the two peaks in the histogram
 ```
 
 
