@@ -99,6 +99,7 @@ ggplot(data = makeup_shades, aes(x = price)) +
    theme_minimal(base_size=20)
 ```
 
+> Data is right-skewed. Range of price is from approximately $1 to $70. 
 
 #### `Lightness` Histogram
 
@@ -107,6 +108,8 @@ ggplot(data = makeup_shades, aes(x = lightness)) +
   geom_histogram()+
    theme_minimal(base_size=20)
 ```
+
+> Data is left-skewed. Range of lightness is from approximately 0-100
 
 #### `Best_seller` Barplot 
 
@@ -145,19 +148,19 @@ summary(makeup_model)   %>%
 ```{r, fig.cap="**Figure 5a** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
     geom_rect(data=NULL,
-             aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
+             aes(xmin=80,xmax=100,ymin=-Inf,ymax=Inf), 
              fill="#ffdbac", col = "#ffdbac")+
   geom_rect(data=NULL,
-            aes(xmin=20,xmax=40,ymin=-Inf,ymax=Inf),
+            aes(xmin=60,xmax=80,ymin=-Inf,ymax=Inf),
             fill="#f1c27d", col="#f1c27d")+
   geom_rect(data=NULL,
             aes(xmin=40,xmax=60,ymin=-Inf,ymax=Inf),
             fill="#e0ac69", col="#e0ac69")+
   geom_rect(data=NULL,
-            aes(xmin=60,xmax=80,ymin=-Inf,ymax=Inf),
+            aes(xmin=20,xmax=40,ymin=-Inf,ymax=Inf),
             fill="#c68642", col="#c68642")+
   geom_rect(data=NULL,
-             aes(xmin=80,xmax=100,ymin=-Inf,ymax=Inf), 
+             aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
              fill="#8d5524", col="#8d5524")+
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
  scale_color_manual(values=c("#001eff", #india is first
@@ -169,7 +172,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
   labs(title="Parallel Slopes Model of Makeup Data",
        # subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
        y= "Price (in US Dollars)",
-       x ="Lightness (Lightest to Darkest)") +
+       x ="Lightness (Darkest to Lightest)") +
   scale_colour_discrete("Best Seller\n by Country") +
   geom_point() +
    geom_parallel_slopes(se=FALSE)
@@ -183,7 +186,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
   theme_minimal(base_size=20)+ 
   labs(title="Parallel Slopes Model of Makeup Data",
        y= "Price (in US Dollars)",
-       x ="Lightness (Lightest to Darkest)") +
+       x ="Lightness (Darkest to Lightest)") +
   scale_colour_discrete("Best Seller\n by Country") +
   geom_point() +
    geom_parallel_slopes(se=FALSE) 
@@ -232,20 +235,20 @@ summarymm
 ```{r, fig.cap="**Figure 6** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
-   geom_rect(data=NULL,
-             aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
+  geom_rect(data=NULL,
+             aes(xmin=80,xmax=100,ymin=-Inf,ymax=Inf), 
              fill="#ffdbac", col = "#ffdbac")+
   geom_rect(data=NULL,
-            aes(xmin=20,xmax=40,ymin=-Inf,ymax=Inf),
+            aes(xmin=60,xmax=80,ymin=-Inf,ymax=Inf),
             fill="#f1c27d", col="#f1c27d")+
   geom_rect(data=NULL,
             aes(xmin=40,xmax=60,ymin=-Inf,ymax=Inf),
             fill="#e0ac69", col="#e0ac69")+
   geom_rect(data=NULL,
-            aes(xmin=60,xmax=80,ymin=-Inf,ymax=Inf),
+            aes(xmin=20,xmax=40,ymin=-Inf,ymax=Inf),
             fill="#c68642", col="#c68642")+
   geom_rect(data=NULL,
-             aes(xmin=80,xmax=100,ymin=-Inf,ymax=Inf), 
+             aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
              fill="#8d5524", col="#8d5524")+
   geom_point() +
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
@@ -259,7 +262,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   labs(title="Interaction Model of Makeup Data",
        # subtitle="India as the baseline. Looking for correlation between price and lightness\n of foundations across different countries.",
        y= "Price (in US Dollars)",
-       x ="Lightness (Lightest to Darkest)") +
+       x ="Lightness (Darkest to Lightest)") +
   scale_colour_discrete("Best Seller\n by Country") 
   
 ```
