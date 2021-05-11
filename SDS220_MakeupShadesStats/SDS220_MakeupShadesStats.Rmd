@@ -81,13 +81,15 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 #### Parallel Slopes Model and Analysis
 
 
-```{r, fig.cap= "}
+```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
 summary(makeup_model)   %>%
   tidy() %>%
   kbl() %>%
   kable_material(c("striped", "hover"))
 ```
+
+> Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly. 
 
 ```{r, fig.cap="**Figure 1** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
@@ -173,8 +175,7 @@ summarymm
 #   kable()
 ```
 
->what  model is it for, what rows should we be paying attention to
-
+>This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis. 
 
 ```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
