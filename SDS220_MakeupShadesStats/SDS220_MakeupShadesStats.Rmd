@@ -275,10 +275,12 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 
 The question we set out to answer was whether there is a relationship between price and lightness across different value makeup brands around the world. We found no evidence that lightness is associated with price. Although this was not the original question we sought to answer, there is evidence that different countries have different prices in U.S. dollars for makeup because the Pr(>|t|) values on our model's summary table for each individual countries' intercept was much less than the statistical significant value 0.05. If we wanted to continue with this research, we may want to look at the data for makeup prices in more countries to see if makeup prices differ based on shade in different countries.
 
-Our model did not fit well to the metrics used to determine whether or model accurately represents the data. For linearity, each line in our parallel slopes model losely fits the points because many of the points followed alongside the line, but was either had prices extremely higher than the price for the line or lower than that price. Additionally, our model did not have nearly normal residuals or demonstrate constant variance.
+Our model did not fit well to the assumption metrics used to determine whether or model accurately represents the data. For linearity, each line in our parallel slopes model losely fits the points because many of the points followed alongside the line, but was either had prices extremely higher than the price for the line or lower than that price. Additionally, our model did not have nearly normal residuals or demonstrate constant variance.
+What can't we trust as much: p-values, area under the curve, so can we really trust the model we chose based on the p-values, assuming each makeup is independent.
 
 Also, there were many limitations in this data set. The data set included many brands that have `na` for `best_seller` value , and we filtered all of those brands out of our data. Because we filtered out these brands, it may not be appropriate to generalize these results to all brands or even all countries because there were only 4 countries that were best sellers in the data set. Makeup prices may not vary greatly as lightness increases in a country in our data set, but in another country not represented by our data, it still could vary greatly. Similarly, a makeup brand in our data may not accurately show how prices for different shades of lightness vary in a different brand.
 
+Because we found little association between our two variables: `lightness` and `price`, we would like to determine if there is an association between other variables in the dataset, such as 
 </div>
 
 ***
