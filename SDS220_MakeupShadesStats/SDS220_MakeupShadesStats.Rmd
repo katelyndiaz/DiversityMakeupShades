@@ -47,6 +47,7 @@ library(openintro)
 library(plotly)
 library(moderndive)
 library(kableExtra)
+library(broom)
 makeupdata <- read.csv("makeupshades4 copy.csv")
                        # FinalProjectPersonalExploration/makeupshades1 copy.csv")
   #"SDS220_MakeupShadesStats/MakeupShades3 copy.csv"") <- if i need to run the data
@@ -82,10 +83,10 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 
 ```{r}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
-summary(makeup_model)  # %>%
-#   tidy() %>%
-#   kbl() %>%
-#   kable_material(c("striped", "hover"))
+summary(makeup_model)   %>%
+  tidy() %>%
+  kbl() %>%
+  kable_material(c("striped", "hover"))
 ```
 
 ```{r, fig.cap="**Figure 1** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
@@ -121,13 +122,27 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
    geom_parallel_slopes(se=FALSE)
 ```
 
+
+```{r, fig.cap="Model graph without background to better view data  points"}
+ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
+  scale_x_continuous(breaks=c(0,20,40,60,80,100))+
+  theme_minimal(base_size=20)+ 
+  labs(title="Parallel Slopes Model of Makeup Data",
+       y= "Price (in US Dollars)",
+       x ="Lightness (Lightest to Darkest)") +
+  scale_colour_discrete("Best Seller\n by Country") +
+  geom_point() +
+   geom_parallel_slopes(se=FALSE) 
+```
+
+
 ***
 <style>
 div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-For our parallel slopes model, the baseline, India, was represented by the equation: **price_hat_India = 9.1686 -0.007326x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an *decrease* of price by approximately $0.007 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, **$9.20**. 
+For our parallel slopes model, the baseline, India, was represented by the equation: **price_hat_India = 9.1686 -0.007326x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an *decrease* of price by approximately \$0.007 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, **$9.20**. 
 
 
 Besides from our baseline, we also investigated data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (9.2 + 36.72) -0.007326x**. As we can see, the slope stays constant for all lines, so we can expect to see that for every unit increase in lightness, there is also an *decrease* in price by approximately $0.007 on average. When the lightness is equal to zero, we expect to see the price to be, on average, $(9.2 + 36.72), or **$45.92**, so in spite of this constant slope, Japan starts off at a much higher price. This leads us to believe that from the start, the cost of makeup best sellers in Japan is much more expensive than the cost in India. 
@@ -149,17 +164,19 @@ From this analysis, we can see that the price of makeup best sellers in India is
 
 ```{r}
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
-summarymm <- summary(makeup_model2) 
-# %>%
-#   # tidyr() %>%
-#   kbl() %>%
-#   kable_material(c("striped", "hover"))
+summarymm <- summary(makeup_model2) %>%
+  tidy() %>%
+  kbl() %>%
+  kable_material(c("striped", "hover"))
 summarymm
 #   tidy() %>%
 #   kable()
 ```
 
-```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries."}
+>what  model is it for, what rows should we be paying attention to
+
+
+```{r, fig.cap="**Figure 2** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
    geom_rect(data=NULL,
@@ -194,6 +211,8 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
 ```
 
+
+
 ***
 <style>
 div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
@@ -203,7 +222,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 At first glance, our interaction model may look similar to our parallel slopes model, but they are actually different. See Appendix for further explanation. 
 
 
-The interaction model is not ideal compared to the parallel slopes model, and the reasoning behind this lies in the p-values. In the summary table, each row represents a hypothesis test, and the column furthest to the right shows a p-value for each test that was obtained. We usually use a significance level of 0.05 in order to determine whether the result is significant or not. P-values less than 0.05 imply that there is significance (we can reject the null hypothesis because there is evidence in favor in the alternative hypothesis), and those greater than 0.05 do not have significance (we fail to reject the null). As we can see from the summary table for the parallel slopes model, we've obained p-values all greater than the significance level for seven out of the eight rows (0.7366, 0.7098, and 0.9995, just to name a few). This means that it is not significant to have several different slopes for our model. On the other hand, our parallel slopes model does exhibit extremely small p-values for four out of five of the rows (examples include 0.02, 0.0026, and 3.79e-14). This tells us that there is significance in having different slopes, which is why our parallel slopes model is more ideal. 
+The interaction model is not ideal compared to the parallel slopes model, and the reasoning behind this lies in the p-values. In the summary table, each row represents a hypothesis test, and the column furthest to the right shows a p-value for each test that was obtained. We usually use a significance level of 0.05 in order to determine whether the result is significant or not. P-values less than 0.05 imply that there is significance (we can reject the null hypothesis because there is evidence in favor in the alternative hypothesis), and those greater than 0.05 do not have significance (we fail to reject the null). As we can see from the summary table for the parallel slopes model, we've obtained p-values all greater than the significance level for seven out of the eight rows (0.7366, 0.7098, and 0.9995, just to name a few). This means that it is not significant to have several different slopes for our model. On the other hand, our parallel slopes model does exhibit extremely small p-values for four out of five of the rows (examples include 0.02, 0.0026, and 3.79e-14). This tells us that there is significance in having different slopes, which is why our parallel slopes model is more ideal. 
 
 </div>
 
@@ -214,7 +233,7 @@ The interaction model is not ideal compared to the parallel slopes model, and th
 
 ### Constant Variance plot
 
-```{r constant variance plot}
+```{r constant variance plot, fig.cap= "**Figure 3.a** Residuals versus fitted values plot. Dotted line represents where residuals equal 0."}
 ggplot(data = makeup_model, aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -253,6 +272,15 @@ ggplot(data = question1a, aes(x = .resid)) +
   xlab("Residuals")
 ```
 
+
+```{r, qq plot}
+qqplot <- lm(price ~ lightness, data = makeup_shades)
+ggplot(data = question1a, aes(sample = .resid)) +
+  geom_qq() +
+  xlab("Residuals") # curves line up with the two peaks in the histogram
+```
+
+
 ***
 <style>
 div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
@@ -273,14 +301,13 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-The question we set out to answer was whether there is a relationship between price and lightness across different value makeup brands around the world. We found no evidence that lightness is associated with price. Although this was not the original question we sought to answer, there is evidence that different countries have different prices in U.S. dollars for makeup because the Pr(>|t|) values on our model's summary table for each individual countries' intercept was much less than the statistical significant value 0.05. If we wanted to continue with this research, we may want to look at the data for makeup prices in more countries to see if makeup prices differ based on shade in different countries.
+The question we set out to answer was whether there is a relationship between price and lightness across different value makeup brands around the world. We found no evidence that lightness is associated with price. Although this was not the original question we sought to answer, there is evidence that different countries have different prices in U.S. dollars for makeup because the p values on our model's summary table for each individual countries' intercept was much less than the statistical significant value 0.05. If we wanted to continue with this research, we may want to look at the data for makeup prices in more countries to see if makeup prices differ based on shade in different countries.
 
 Our model did not fit well to the assumption metrics used to determine whether or model accurately represents the data. For linearity, each line in our parallel slopes model losely fits the points because many of the points followed alongside the line, but was either had prices extremely higher than the price for the line or lower than that price. Additionally, our model did not have nearly normal residuals or demonstrate constant variance.
 What can't we trust as much: p-values, area under the curve, so can we really trust the model we chose based on the p-values, assuming each makeup is independent.
 
 Also, there were many limitations in this data set. The data set included many brands that have `na` for `best_seller` value , and we filtered all of those brands out of our data. Because we filtered out these brands, it may not be appropriate to generalize these results to all brands or even all countries because there were only 4 countries that were best sellers in the data set. Makeup prices may not vary greatly as lightness increases in a country in our data set, but in another country not represented by our data, it still could vary greatly. Similarly, a makeup brand in our data may not accurately show how prices for different shades of lightness vary in a different brand.
 
-Because we found little association between our two variables: `lightness` and `price`, we would like to determine if there is an association between other variables in the dataset, such as 
 </div>
 
 ***
