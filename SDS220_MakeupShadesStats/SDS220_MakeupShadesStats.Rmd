@@ -32,6 +32,17 @@ references:
     year: 2018
   publisher: Data.World
   url: https://data.world/the-pudding/diversity-of-makeup-shades
+  
+- id: Elle
+  type: article
+  title: "It's 2018. Why Is It Still A Struggle To Find Foundation For Dark Skin?"
+  author: 
+  - family: Penrose
+    given: Nerisha 
+  issued:
+    year: 2018
+  publisher: Elle
+  url: https://www.elle.com/beauty/makeup-skin-care/a22687914/struggle-to-find-dark-skin-foundation-woc-influencers-beauty-blender-tarte/
 editor_options: 
   chunk_output_type: console
 ---
