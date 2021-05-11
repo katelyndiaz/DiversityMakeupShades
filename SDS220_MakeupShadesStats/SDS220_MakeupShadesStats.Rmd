@@ -253,6 +253,7 @@ The interaction model is not ideal compared to the parallel slopes model, and th
 ggplot(data = makeup_model, aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed") +
+   theme_minimal(base_size=20)+
   xlab("Fitted values") +
   ylab("Residuals")
 ```
@@ -285,7 +286,8 @@ plot1a <- ggplot(makeup_shades, aes(x = lightness, y = price))+
 question1a <- lm(price ~ lightness, data = makeup_shades)
 ggplot(data = question1a, aes(x = .resid)) +
   geom_histogram() +
-  xlab("Residuals")
+  xlab("Residuals")+
+   theme_minimal(base_size=20)+
 ```
 
 
@@ -293,7 +295,8 @@ ggplot(data = question1a, aes(x = .resid)) +
 qqplot <- lm(price ~ lightness, data = makeup_shades)
 ggplot(data = question1a, aes(sample = .resid)) +
   geom_qq() +
-  xlab("Residuals") # curves line up with the two peaks in the histogram
+  xlab("Residuals") +# curves line up with the two peaks in the histogram
+   theme_minimal(base_size=20)
 ```
 
 
