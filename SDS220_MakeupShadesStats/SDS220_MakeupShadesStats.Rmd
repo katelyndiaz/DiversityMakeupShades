@@ -91,7 +91,7 @@ The question we wanted to answer was: “Is there a relationship between price a
 
 ### Basic Data Analysis
 
-#### Price Histogram
+#### `Price` Histogram
 
 ```{r, fig.cap="**Figure 1** Histogram for the price (in US dollars) variable."}
 ggplot(data = makeup_shades, aes(x = price)) +
@@ -100,7 +100,7 @@ ggplot(data = makeup_shades, aes(x = price)) +
 ```
 
 
-#### Lightness Histogram
+#### `Lightness` Histogram
 
 ```{r, fig.cap="**Figure 2** Histogram for the lightness (0 - 100) variable."}
 ggplot(data = makeup_shades, aes(x = lightness)) +
@@ -108,10 +108,18 @@ ggplot(data = makeup_shades, aes(x = lightness)) +
    theme_minimal(base_size=20)
 ```
 
+#### `Best_seller` Barplot 
+
+```{r, fig.cap="**Figure 3** Barplot of the best_seller variable"}
+ggplot(data= makeup_shades, aes(x=best_seller))+
+  geom_bar()+
+   theme_minimal(base_size=20)
+```
+
 
 #### Scatterplot of Variables
 
-```{r, fig.cap="**Figure 3** Scatterplot of Lightness and Price (numerical variables), colored by Best Seller (categorical variable)." }
+```{r, fig.cap="**Figure 4** Scatterplot of Lightness and Price (numerical variables), colored by Best Seller (categorical variable)." }
 ggplot(data = makeup_shades, aes(x = lightness, y=price, col = best_seller)) +
   geom_point()+
    theme_minimal(base_size=20)
@@ -134,7 +142,7 @@ summary(makeup_model)   %>%
 
 > Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly. 
 
-```{r, fig.cap="**Figure 4a** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
+```{r, fig.cap="**Figure 5a** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
     geom_rect(data=NULL,
              aes(xmin=0,xmax=20,ymin=-Inf,ymax=Inf), 
@@ -168,7 +176,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
 ```
 
 
-```{r, fig.cap="**Figure 4b** Parallel slopes model graph with white background to better view data  points"}
+```{r, fig.cap="**Figure 5b** Parallel slopes model graph with white background to better view data  points"}
 
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
@@ -221,7 +229,7 @@ summarymm
 
 >This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis. 
 
-```{r, fig.cap="**Figure 5** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
+```{r, fig.cap="**Figure 6** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
    geom_rect(data=NULL,
@@ -276,9 +284,9 @@ The interaction model is not ideal compared to the parallel slopes model, and th
 
 ### Limitations Plots
 
-#### Constant Variance plot
+#### Constant Variance Plot
 
-```{r constant variance plot, fig.cap= "**Figure 6a** Residuals versus fitted values plot. Dotted line represents where residuals equal 0."}
+```{r constant variance plot, fig.cap= "**Figure 7a** Residuals versus fitted values plot. Dotted line represents where residuals equal 0."}
 ggplot(data = makeup_model, aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -301,8 +309,8 @@ However, from our plot, it is clear that a box would not we suit the points. The
 
 ***
 
-
-```{r residuals1, fig.cap="**Figure 6b** Histogram of the residuals"}
+#### Residuals Plot
+```{r residuals1, fig.cap="**Figure 7b** Histogram of the residuals"}
 plot1a <- ggplot(makeup_shades, aes(x = lightness, y = price))+
   geom_point()+
   geom_point(aes(color=best_seller))+
@@ -318,8 +326,8 @@ ggplot(data = question1a, aes(x = .resid)) +
    theme_minimal(base_size=20)
 ```
 
-
-```{r, qq plot, fig.cap="**Figure 6c** qqplot of the residuals"}
+#### qqplot
+```{r, qq plot, fig.cap="**Figure 7c** qqplot of the residuals"}
 qqplot <- lm(price ~ lightness, data = makeup_shades)
 ggplot(data = question1a, aes(sample = .resid)) +
   geom_qq() +
