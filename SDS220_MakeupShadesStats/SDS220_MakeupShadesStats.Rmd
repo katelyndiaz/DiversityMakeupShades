@@ -81,7 +81,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 #### Parallel Slopes Model and Analysis
 
 
-```{r}
+```{r, fig.cap= "}
 makeup_model <- lm(price ~ lightness + best_seller, data = makeupdata)
 summary(makeup_model)   %>%
   tidy() %>%
