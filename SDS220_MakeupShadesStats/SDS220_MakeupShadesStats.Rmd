@@ -169,7 +169,9 @@ summary(makeup_model)  %>%
   tidy() %>%
   kbl() %>%
   kable_material(c("striped", "hover"))
+knitr::include_graphics("ParallelSlopes.png")
 ```
+
 
 > Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1 for our intercept, to help us further understand whether or not this fit our dataset properly. Considering that the multiple R^2^ value is 0.4947, the data does not closely fit our fitted regression lines. 
 
@@ -249,11 +251,12 @@ From this model, when the lightness is equal to zero, we can see that the price 
 
 ```{r}
 makeup_model2 <- lm(price ~ lightness * best_seller, data = makeup_shades)
-summarymm <- summary(makeup_model2) %>%
+summarymm <- summary(makeup_model2)%>%
   tidy() %>%
   kbl() %>%
   kable_material(c("striped", "hover"))
 summarymm
+knitr::include_graphics("InteractionModel.png")
 
 ```
 
