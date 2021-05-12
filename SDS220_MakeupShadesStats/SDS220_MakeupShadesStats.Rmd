@@ -76,13 +76,13 @@ makeup_shades <- makeupdata %>%
 div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
-Throughout recent past years, the popularity of the makeup industry has skyrocketed. This most likely occurred with the rise of social media and social media personalities, from YouTube, Instagram, to even TikTok. While this might seem great, one side that is not acknowledged much is the exclusivity that comes with it. In fact, many people with darker complexions have an extremely difficult time finding their perfect foundation shade, and this is a huge disservice to communities of color. 
+Throughout recent past years, the popularity of the makeup industry has skyrocketed. This most likely occurred with the rise of social media and social media personalities from YouTube, Instagram, and even TikTok. While this might seem great, one side that is often ignored is the exclusivity that comes with the makeup industry. In fact, many people with darker complexions have an extremely difficult time finding their perfect foundation shade, and this is a huge disservice to communities of color. 
 
-We took this into consideration and explored the makeup_shades dataset “from `Data.World` and their article [Diversity of Makeup Shades](https://data.world/the-pudding/diversity-of-makeup-shades). The sampled populations were best seller beauty brands in four different countries - US, Nigeria, India, and Japan. After consultation of different lists produced from sources such as [Amazon](https://www.amazon.com/Best-Sellers-Beauty-Foundation-Makeup/zgbs/beauty/11058871), [Popsugar Beauty](https://www.popsugar.com/beauty/Bestselling-Foundations-Sephora-2017-43250396), [Refinery29](https://www.refinery29.com/en-us/skin-care-brands-women-of-color), [Beauty In Lagos](https://www.beautyinlagos.com/2017/02/nigerian-makeup-brands-you-should-know-about.html/), and [other sources](https://data.world/the-pudding/diversity-of-makeup-shades), a list of brands were compiled. To find the shade color, each brand's website was visited in May of 2018, with the color and `price` being recorded based on the liquid foundation line that had the largest variety of shades. Adobe Photoshop was used to determine the `lightness` value.  
+We took this into consideration and explored the makeup_shades dataset “from `Data.World` and their article [Diversity of Makeup Shades](https://data.world/the-pudding/diversity-of-makeup-shades). The sampled populations were best seller beauty brands in four different countries - U.S., Nigeria, India, and Japan. After consultating different lists produced from sources such as [Amazon](https://www.amazon.com/Best-Sellers-Beauty-Foundation-Makeup/zgbs/beauty/11058871), [Popsugar Beauty](https://www.popsugar.com/beauty/Bestselling-Foundations-Sephora-2017-43250396), [Refinery29](https://www.refinery29.com/en-us/skin-care-brands-women-of-color), [Beauty In Lagos](https://www.beautyinlagos.com/2017/02/nigerian-makeup-brands-you-should-know-about.html/), and [other sources](https://data.world/the-pudding/diversity-of-makeup-shades), a list of brands were compiled. To find the shade color, each brand's website was visited in May of 2018, with the color and `price` being recorded based on the liquid foundation line that had the largest variety of shades. Adobe Photoshop was used to determine the `lightness` value.  
 
 When glimpsing the data, we noticed about ~100 `na`'s under `best_seller`. To make our analysis easier, we filtered out `na`'s from the data set. We were curious to see if there could be any relationship between the specific `lightness` and `price` (i.e. are darker shades more expensive?) as well as if this differs by country, because we believe that price is an important factor in determining the likelihood of someone purchasing a product. 
 
-The question we wanted to answer was: “Is there a relationship between price and lightness across different value makeup brands around the world?” We chose the variables `price` (quantitative response variable) and `lightness`(explanatory variable), organized by the categorical variable `best_seller` because it allowed us to see shade variability separated into four countries. This allowed us to observe the diversity of its products and shades, as well as if there is any correlation with `price` in US dollars.
+The question we wanted to answer was: “Is there a relationship between price and lightness across different value makeup brands around the world?” We chose the variables `price` (quantitative response variable) and `lightness`(explanatory variable), organized by the categorical variable `best_seller` because it allowed us to see shade variability separated into four countries. This allowed us to observe the diversity of each country's products and shades, as well as if there is any correlation with `price` in US dollars.
 
 
 </div>
@@ -93,23 +93,31 @@ The question we wanted to answer was: “Is there a relationship between price a
 
 #### `Price` Histogram
 
-```{r, fig.cap="**Figure 1** Histogram for the price (in US dollars) variable."}
+```{r, fig.cap="**Figure 1** Histogram for the price (in US dollars) variable"}
 ggplot(data = makeup_shades, aes(x = price)) +
   geom_histogram()+
    theme_minimal(base_size=20)
+makeup_shades %>%
+  select(price) %>%
+  range()
+
 ```
 
-> Data is right-skewed. Range of price is from approximately $1 to $70. 
+> Data is right-skewed. The range of price is from $1.49 to $68. 
 
 #### `Lightness` Histogram
 
-```{r, fig.cap="**Figure 2** Histogram for the lightness (0 - 100) variable."}
+```{r, fig.cap="**Figure 2** Histogram for the lightness (0 - 100) variable"}
 ggplot(data = makeup_shades, aes(x = lightness)) +
   geom_histogram()+
    theme_minimal(base_size=20)
+
+makeup_shades %>%
+  select(lightness) %>%
+  range()
 ```
 
-> Data is left-skewed. Range of lightness is from approximately 0-100 (from darkest to lightest)
+> Data is left-skewed. The range of lightness is from 16 to 92, graded on a scale 0-100 (from darkest to lightest).
 
 #### `Best_seller` Barplot 
 
@@ -117,19 +125,24 @@ ggplot(data = makeup_shades, aes(x = lightness)) +
 ggplot(data= makeup_shades, aes(x=best_seller))+
   geom_bar()+
    theme_minimal(base_size=20)
+
+makeup_shades %>%
+  group_by(best_seller) %>%
+  select(brand)%>%
+  count()
 ```
 
-> US has the highest number of brands contributing to this dataset, with over 150
+> U.S. has the highest number of brands contributing to this dataset, with 155 brands.
 
 #### Scatterplot of Variables
 
-```{r, fig.cap="**Figure 4** Scatterplot of Lightness and Price (numerical variables), colored by Best Seller (categorical variable)." }
+```{r, fig.cap="**Figure 4** Scatterplot of Lightness and Price (numerical variables), colored by Best Seller (categorical variable)" }
 ggplot(data = makeup_shades, aes(x = lightness, y=price, col = best_seller)) +
   geom_point()+
    theme_minimal(base_size=20)
 ```
 
-> A great majority of the data points are concentrated towards the right of the scatterplot, giving evidence of more products with lighter shades available on the market
+> A great majority of the data points are concentrated towards the right of the scatterplot, giving evidence of more products with lighter shades available on the market.
   
 ### Linear Regressions
 
@@ -158,7 +171,7 @@ summary(makeup_model)  %>%
   kable_material(c("striped", "hover"))
 ```
 
-> Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1, to help us further understand whether or not this fit our dataset properly. Considering that the multiple R^2 value is 0.4947, the regression lines do not fit the data properly. 
+> Through this summary model, we are able to better observe our data in the parallel slopes plot. We extraplolated essential information such as the intercepts and slopes of our regression lines in order to better interpret any trends in our data. We also evaluated the p-values, such as the value of approximately 0.02 in row 1 for our intercept, to help us further understand whether or not this fit our dataset properly. Considering that the multiple R^2^ value is 0.4947, the data does not closely fit our fitted regression lines. 
 
 ```{r, fig.cap="**Figure 5a** Parallel slopes model plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main y-intercept of comparison). Plot compares price and lightness of foundations across four different countries." }
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) + 
@@ -194,7 +207,7 @@ ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
 ```
 
 
-```{r, fig.cap="**Figure 5b** Parallel slopes model graph with white background to better view data  points"}
+```{r, fig.cap="**Figure 5b** Parallel slopes model graph with white background to better view data points"}
 
 ggplot(makeup_shades, aes(lightness, price, col = best_seller)) +
   scale_x_continuous(breaks=c(0,20,40,60,80,100))+
@@ -214,19 +227,19 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-For our parallel slopes model, the baseline, India, was represented by the equation: **price_hat_India = 9.1686 -0.007326x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an *decrease* of price by approximately \$0.007 (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, **$9.20**. 
+For our parallel slopes model, the baseline, India, was represented by the equation: **price_hat_India = 9.1686 -0.007326x**, in which x equals the "lightness" variable. For every 1 unit increase in lightness, we expect to see, on average, an *decrease* of price by approximately **$0.007** (the slope), and  when the lightness is equal to zero (the intercept and lightest possible shade) we expect the price to be, on average, **$9.20**. 
 
 
-Besides from our baseline, we also investigated data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (9.2 + 36.72) -0.007326x**. As we can see, the slope stays constant for all lines, so we can expect to see that for every unit increase in lightness, there is also an *decrease* in price by approximately $0.007 on average. When the lightness is equal to zero, we expect to see the price to be, on average, $(9.2 + 36.72), or **$45.92**, so in spite of this constant slope, Japan starts off at a much higher price. This leads us to believe that from the start, the cost of makeup best sellers in Japan is much more expensive than the cost in India. 
+Besides from our baseline, we also investigated data for makeup bestsellers in Japan. This was represented by the equation: **price_hat_Japan = (9.2 + 36.72) -0.007326x**. As we can see, the slope stays constant for all lines, so we can expect to see that for every unit increase in lightness, there is also a *decrease* in price by approximately \$0.007 on average. When the lightness is equal to zero, we expect to see the price to be, on average, \$(9.2 + 36.72), or **$45.92**, so in spite of this constant slope, Japan starts off at a much higher price. This leads us to believe that from the start, the cost of makeup best sellers in Japan is much more expensive than the cost in India. 
 
 
-Nigeria on the other hand does not appear to show behavior as drastic as Japan. The regression line for Nigeria is represented by **price_hat_Nigeria = (9.2 + 7.88) -0.007326x**, where for every one unit increase in lightness, we expect the price to decrease by $0.007 on average. We also expect the price to be (9.2 + 7.88), or **$17.08** on average, when the lightness is equal to zero. While this price might not be as expensive as the price in Japan, it is still higher than India. 
+Nigeria, on the other hand, does not appear to show behavior as drastic as Japan. The regression line for Nigeria is represented by **price_hat_Nigeria = (9.2 + 7.88) -0.007326x**, where for every one unit increase in lightness, we expect the price to decrease by \$0.007 on average. We also expect the price to be (9.2 + 7.88), or **$17.08** on average, when the lightness is equal to zero. While this price might not be as expensive as the price in Japan, it is still higher than India because we add \$7.88 to India's intercept ($9.20). 
 
 
-Lastly, we analyzed at the data for makeup bestsellers in the U.S. The regression line for the U.S. is represented by the equation **price_hat_US = (9.2 + 15.57) -0.007326x**. We expect the price to decrease, on average, by $0.007 for every one unit increase in lightness, and when the lightness is equal to zero, the price is expected to be $(9.2 + 15.57) or **$24.77** on average. Compared to India, the price of makeup best sellers in the U.S. are still more expensive. 
+Lastly, we analyzed at the data for makeup bestsellers in the U.S. The regression line for the U.S. is represented by the equation **price_hat_US = (9.2 + 15.57) -0.007326x**. We expect the price to decrease, on average, by \$0.007 for every one unit increase in lightness, and when the lightness is equal to zero, the price is expected to be $(9.2 + 15.57) or **$24.77** on average. Compared to India, we expect for the price of makeup best sellers in the U.S. to be $15.57 more expensive. 
 
 
-From this analysis, we can see that the price of makeup best sellers in India is the cheapest at $9.20, compared to the other countries which have much higher prices. Japan being the most expensive at $45.92, then the U.S. at $24.77, and finally Nigeria at $17.08. We can see that there is a negative correlation between price and lightness in all countries (India, Japan, Nigeria, the U.S.) as a result of having a negative slope. 
+From this model, when the lightness is equal to zero, we can see that the price of makeup best sellers in India is the cheapest at \$9.20, compared to the other countries which have much higher prices. Japan being the most expensive at \$45.92, then the U.S. at \$24.77, and finally Nigeria at $17.08. We can see that there is a negative correlation between price and lightness in all countries (India, Japan, Nigeria, the U.S.) as a result of having a negative slope. 
 
 </div>
 
@@ -244,9 +257,9 @@ summarymm
 
 ```
 
-> This summary model describes what is observed in our interaction model plot. We payed close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis. Considering that the multiple R^2 value is 0.4953, the regression lines do not fit the data properly. 
+> This summary model describes what is observed in our interaction model plot. We paid close attention to the p-values, which helped us determine that this is not an ideal plot. For example, the p-values of approximately 0.7 in rows 1 and 2 and 0.9 in row 6 which are above the significance level of 0.05 led us to being unable to reject the null hypothesis.  Considering that the multiple R^2^ value is 0.4953, the regression lines do not fit the data properly. Looking back, the parallel slopes model had a similar R^2^ value at 0.4947. Although the interaction model's regression lines do fit the data more closely, we did not think that a 0.0006 difference in R^2^ values constitutes using the more advanced model.
 
-```{r, fig.cap="**Figure 6** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not  choose this model."}
+```{r, fig.cap="**Figure 6** Interaction model linearity plot comparing lightness (x-axis) to price in dollars (y-axis). India is acting as the baseline (main slope of comparison). Plot compares price and lightness of foundations across four different countries. We did not choose this model."}
 ggplot(makeup_shades, aes(lightness, price, col = best_seller))+
   
   geom_rect(data=NULL,
@@ -292,7 +305,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 At first glance, our interaction model may look similar to our parallel slopes model, but they are actually different. See Appendix for further explanation. 
 
 
-The interaction model is not ideal compared to the parallel slopes model, and the reasoning behind this lies in the p-values. In the summary table, each row represents a hypothesis test, and the column furthest to the right shows a p-value for each test that was obtained. We usually use a significance level of 0.05 in order to determine whether the result is significant or not. P-values less than 0.05 imply that there is significance (we can reject the null hypothesis because there is evidence in favor in the alternative hypothesis), and those greater than 0.05 do not have significance (we fail to reject the null). As we can see from the summary table for the parallel slopes model, we've obtained p-values all greater than the significance level for seven out of the eight rows (0.7366, 0.7098, and 0.9995, just to name a few). This means that it is not significant to have several different slopes for our model. In other words, no evidence was provided against the null hypothesis. On the other hand, our parallel slopes model does exhibit extremely small p-values for four out of five of the rows (examples include 0.02, 0.0026, and 3.79e-14). This tells us that there is significance in having different slopes, which is why our parallel slopes model is more ideal, meaning there was evidence in favor of the alternative hypothesis. 
+The interaction model is not ideal compared to the parallel slopes model, and the reasoning behind this lies in the p-values. In the summary table, each row represents a hypothesis test, and the column furthest to the right shows a p-value for each test that was obtained. We usually use a significance level of 0.05 in order to determine whether the result is significant or not. P-values less than 0.05 imply that there is significance (we can reject the null hypothesis because there is evidence in favor in the alternative hypothesis), and those greater than 0.05 do not have significance (we fail to reject the null). As we can see from the summary table for the parallel slopes model, we've obtained p-values all greater than the significance level for seven out of the eight rows (0.7366, 0.7098, and 0.9995, just to name a few). This means that it is not significant to have several different slopes for our model. In other words, no evidence was provided against the null hypothesis. On the other hand, our parallel slopes model does exhibit extremely small p-values for four out of five of the rows (examples include 0.02, 0.0026, and 3.79e-14). This tells us that there is significance in having different intercepts, which is why our parallel slopes model is more ideal, meaning there was evidence in favor of the alternative hypotheses. Here the alternative hypotheses are each different country has its own intercept and the price at lightness equal to zero should be different for each country. 
 
 </div>
 
@@ -304,7 +317,7 @@ The interaction model is not ideal compared to the parallel slopes model, and th
 
 #### Constant Variance Plot
 
-```{r constant variance plot, fig.cap= "**Figure 7a** Residuals versus fitted values plot. Dotted line represents where residuals equal 0."}
+```{r constant variance plot, fig.cap= "**Figure 7a** Residuals versus fitted values plot. Dotted line represents where residuals are equal 0."}
 ggplot(data = makeup_model, aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -319,9 +332,9 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-Our constant variance plot is not ideal. The fitted values represent the price we expect to see from our linear model using the makeup's lightness while the residuals represent the observed price minus the expected price. Each point is a the expected price and how close it was to the original price in the data. An ideal plot would have residual values within a certain range throughout all fitted values. We would be able to draw a rectangle encompassing all the points. This rectangle would show that across all levels of our expected prices, our residuals stay within a certain range and has constant variance. Ideally, the plot would demonstrate as our expected prices from our model increase, we would expect similar differences in our residuals.
+Our constant variance plot is not ideal. The fitted values represent the price we expect to see from our linear model using the makeup's lightness while the residuals represent the observed price minus the expected price. Each point is the expected price from our model and how close it was to the original price in the data. An ideal plot would have residual values within a certain range throughout all fitted values. We would be able to draw a rectangle encompassing all the points to show that across all levels of our expected prices, our residuals stay within a certain range and has constant variance. Ideally, the plot would demonstrate as our expected prices from our model increase, we would expect similar differences in our residuals.
 
-However, from our plot, it is clear that a box would not we suit the points. The points instead fit a more triangular shape with a smaller range of residual values (from -7 to 5) at smaller fitted values around an expected price of 10, but a much larger range (-27 to 23) at larger fitted values around an expected price of 45. Starting at lower fitted values, the range of residuals gradually increases until the highest fitted values at 45. Thus, our constant variance plot demonstrates that as our expected prices from our model increase, we also expect greater differences in our residuals. Our model does not demonstrate constant variance. 
+However, from our plot, it is clear that a box would not we suit the points. The points instead fit a more triangular shape with a smaller range of residual values (from -7 to 5) at smaller fitted values around an expected price of 10 and gradually expand to the largest range (-27 to 23) at larger fitted values around an expected price of 45. Thus, our constant variance plot demonstrates that as our expected prices from our model increase, we also expect greater differences in our residuals. Our model does not demonstrate constant variance. 
 
 </div>
 
@@ -344,12 +357,13 @@ ggplot(data = question1a, aes(x = .resid)) +
    theme_minimal(base_size=20)
 ```
 
-#### qqplot
-```{r, qq plot, fig.cap="**Figure 7c** qqplot of the residuals"}
+#### Quantile-quantile plot
+```{r, qq plot, fig.cap="**Figure 7c** Qq-plot of the residuals"}
 qqplot <- lm(price ~ lightness, data = makeup_shades)
 ggplot(data = question1a, aes(sample = .resid)) +
   geom_qq() +
-  xlab("Residuals") +# curves line up with the two peaks in the histogram
+  xlab("Theoretical Quantiles") + # curves line up with the two peaks in the histogram
+  ylab("Sample Quantiles") +
    theme_minimal(base_size=20)
 ```
 
@@ -360,7 +374,7 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-The residuals histogram can be used to determine if variance is normally distributed. Based on this histogram, it appears that the histogram is right skewed, meaning that they are not normally distributed. This means that we can't trust the p-values on the summary table. 
+The residuals histogram and qq-plot can be used to determine if the residuals are normally distributed. From on this histogram, the residuals appear to be right skewed, meaning that the residuals are not normally distributed. In fact, the histogram seems bimodal with one peak at residuals approximately equal to -12 and another when residuals are approximately 20. The qq-plot demonstrates this behavior as well with two places in the plot where the points curve away from a theoretical straight line that we could draw on this plot through the points. The gap in residuals from approximately 26 to 35 on the histogram is the break in the qq-plot at theoretical quantiles at approximately 1.6. Ideally, a qq-plot lies on a straight line to show that residuals are perfectly normal, which is not what our plot demonstrates. This means that we cannot assume we have normally distributed residuals or trust the p-values on the summary table. 
 
 </div>
 
@@ -374,12 +388,13 @@ div.blue { background-color:#f2f1f0; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-The question we set out to answer was whether there is a relationship between price and lightness across different value makeup brands around the world. We found no evidence that lightness is associated with price. Although this was not the original question we sought to answer, there is evidence that different countries have different prices in U.S. dollars for makeup because the p values on our model's summary table for each individual countries' intercept was much less than the statistical significant value 0.05. If we wanted to continue with this research, we may want to look at the data for makeup prices in more countries to see if makeup prices differ based on shade in different countries.
+The question we set out to answer was whether there is a relationship between price and lightness across different value makeup brands around the world. We found no evidence that lightness is associated with price. Although this was not the original question we sought to answer, there is evidence that different countries have different prices in U.S. dollars for makeup because the p values on our model's summary table for each individual countries' intercept was much less than the statistical significant value 0.05. If we wanted to continue with this research, we may want to look at the data for makeup prices in more countries to see if makeup prices differ based on shade in different countries. This would give us a broader view to see how price is based on makeup shades throughout more of the world.
 
-Our model did not fit well to the assumption metrics used to determine whether or model accurately represents the data. For linearity, each line in our parallel slopes model losely fits the points because many of the points followed alongside the line, but was either had prices extremely higher than the price for the line or lower than that price. Additionally, our model did not have nearly normal residuals or demonstrate constant variance.
-What can't we trust as much: p-values, area under the curve, so can we really trust the model we chose based on the p-values, assuming each makeup is independent.
+Our model did not fit well to the assumption metrics used to determine whether or model accurately represents the data. For linearity, each line in our parallel slopes model losely fits the points because many of the points followed alongside the line, but was either had prices extremely higher than the price for the line or lower than that price. Additionally, our model did not have nearly normal residuals or demonstrate constant variance. Thus, we cannot trust our p-values or the area under the curve for our assumed normal distribution. However, we created our model using these p-values, which is a serious limitation of our model. Finally, to create our model, we also had to assume that makeup prices from brands around the world were independent of each other.
 
 Also, there were many limitations in this data set. The data set included many brands that have `na` for `best_seller` value , and we filtered all of those brands out of our data. Because we filtered out these brands, it may not be appropriate to generalize these results to all brands or even all countries because there were only 4 countries that were best sellers in the data set. Makeup prices may not vary greatly as lightness increases in a country in our data set, but in another country not represented by our data, it still could vary greatly. Similarly, a makeup brand in our data may not accurately show how prices for different shades of lightness vary in a different brand.
+
+For future iterations, we would like to work with a data set that includes more liquid foundation lines for each brand instead of only including the makeup line with the most number of shades available. With this information, we could see how many shades brands make available on average and even throughout the world. It would also be helpful to use data from multiple years, not just 2018, to see how the number of makeup shades available changes year to year. Finally, it would be interesting to use other variables in this dataset, such as `group`. This variable not only includes best sellers for all four countries in the dataset, but it also separates products as BIPOC-recommended Brands with BIPOC Founders and BIPOC-recommended Brands with White Founders. Every product can only be placed in one group, and it would be fascinating to see differences in the products placed in each group relating to their price and lightness.   
 
 </div>
 
